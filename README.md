@@ -1,6 +1,6 @@
 # LoonLink
 
-> **Status:** LoonLink is under development. This repository currently contains product and architecture documentation only; no storefront or production service has been implemented.
+> **Status:** LoonLink is under development. Phase 1A establishes the application shell and engineering foundation; no storefront or production service has been implemented.
 
 LoonLink is a planned B2B optical transceiver commerce and compatibility platform, initially focused on the Canadian market. It is intended to help businesses discover, evaluate, and purchase tested pre-owned enterprise optical transceivers using structured technical specifications, transparent inventory condition, and evidence-backed compatibility information.
 
@@ -31,7 +31,7 @@ Compatibility information is decision support, not a guarantee. Wording and evid
 | Area | Planned choice |
 | --- | --- |
 | Application | Next.js App Router, React, TypeScript |
-| Styling | Tailwind CSS; accessible, semantic UI primitives |
+| Styling | Tailwind CSS and shadcn/ui; accessible, semantic UI primitives |
 | Hosting | Vercel; Pro is the early-production target |
 | Data | Supabase Postgres, initially Supabase Free where appropriate |
 | Authentication | Supabase Auth |
@@ -68,6 +68,57 @@ The browser is untrusted. Pricing, discounts, authorization, inventory availabil
 - [SECURITY.md](./SECURITY.md) — threat model and controls
 - [ROADMAP.md](./ROADMAP.md) — phased delivery plan
 
+## Local development
+
+Requirements:
+
+- Node.js 22.17 or newer within the Node 22 release line
+- npm 10 or newer
+
+Install dependencies and start the local development server:
+
+```bash
+npm ci
+npm run dev
+```
+
+Open `http://localhost:3000`. Phase 1A does not require environment variables, so there is no `.env.example` file.
+
+## Quality commands
+
+| Command | Purpose |
+| --- | --- |
+| `npm run lint` | Run ESLint |
+| `npm run typecheck` | Run strict TypeScript checking without emitting files |
+| `npm test` | Run Vitest component/unit tests once |
+| `npm run test:watch` | Run Vitest in watch mode |
+| `npm run test:e2e` | Run the Playwright Chromium smoke test |
+| `npm run build` | Create a production Next.js build |
+| `npm run start` | Serve an existing production build |
+
+The local Playwright configuration uses an installed Google Chrome browser. Linux CI installs Playwright-managed Chromium before running the end-to-end test:
+
+```bash
+npx playwright install --with-deps chromium
+```
+
+GitHub Actions runs linting, type checking, unit tests, the production build, and Playwright in separate foundation jobs.
+
+The production build uses Next.js's supported webpack fallback because the current macOS 13 ARM development host blocks an internal Turbopack CSS-worker port. Development still uses the default Turbopack server, and CI runs the same production build script documented above.
+
+## Phase 1A application structure
+
+```text
+src/
+  app/                 App Router entry points and global styles
+  components/
+    layout/            Accessible application shell
+    ui/                Minimal shadcn/ui components
+  lib/                 Shared framework utilities
+tests/
+  e2e/                 Playwright smoke tests
+```
+
 ## Current limitations
 
-There is no deployed product, purchasable inventory, configured payment flow, compatibility dataset, or supported-product commitment yet. Tax integration is a future production requirement and is not part of Phase 0.
+There is no deployed product, purchasable inventory, configured payment flow, compatibility dataset, or supported-product commitment yet. Supabase, Stripe, authentication, catalog persistence, inventory, checkout, RFQs, and administration are not configured in Phase 1A. Tax integration remains a future production requirement.
