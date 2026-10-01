@@ -2,7 +2,19 @@
 
 ## Status and design principles
 
-This document is a logical design for later implementation. **No database migrations are part of Phase 0.** Names, types, constraints, and access policies must be reviewed when migrations are created.
+This document defines the logical model. Phase 2A implements only `products`, `product_specs`, `skus`, `inventory`, `inventory_units`, and `test_events` in the initial version-controlled migration. Later entities remain design targets and are not present in the database yet.
+
+### Phase 2A implementation decisions
+
+- PostgreSQL enums constrain stable lifecycle/mode values; unresolved business rubrics such as condition grades remain constrained by future policy rather than invented values.
+- SKU price and currency are nullable together. Checkout eligibility requires an active SKU with a non-negative integer minor-unit price and uppercase three-letter currency, but Phase 2A inserts no prices.
+- Inventory tracking mode is immutable through direct table updates. A future authorized conversion transaction may convert an empty/uncommitted bucket; Phase 2A rejects direct conversion to eliminate aggregate/serialized overlap.
+- An aggregate bucket owns `quantity_on_hand` and cannot own serialized-unit rows. A serialized bucket has null `quantity_on_hand`, and its physical count comes only from `inventory_units`. SQL checks and triggers enforce both sides.
+- Inventory condition inherits the SKU's sellable condition basis. Only a serialized unit may record a factual `condition_grade_override`; a material public-grade difference requires moving the unit to an appropriate SKU before sale.
+- Test `result` preserves the observed result (`passed`, `failed`, or `inconclusive`). Voiding is represented separately by immutable `voided_at`/`voided_by` metadata rather than overwriting the original result with a `voided` enum value.
+- Test facts are append-oriented: target, method, result, tester reference, measurements, and notes cannot be rewritten. A correction creates a same-target superseding event; an existing event may be voided once.
+- Every operational table has forced RLS with no access policies in Phase 2A. Public/customer access remains denied, and the storefront continues to use fixtures.
+- `src/db/public-product.ts` is the typed allowlisted read boundary for future storefront queries. It contains no inventory quantity/location, serialized-unit, test-internal, cost/supplier, customer, payment, or admin fields.
 
 The model follows these principles:
 
@@ -197,7 +209,7 @@ Minimal append-oriented testing history for an aggregate cohort or one serialize
 | `inventory_unit_id` | Nullable serialized-unit target |
 | `tested_at` | When the test occurred |
 | `test_method_code`, `test_method_version` | Controlled method/reference without requiring a method-management subsystem |
-| `result` | `passed`, `failed`, `inconclusive`, or `voided` |
+| `result` | Observed result: `passed`, `failed`, or `inconclusive`; void state is separate so the original result is retained |
 | `tester_reference` | Restricted operator/lab reference; not public by default |
 | `quantity_tested` | Required positive quantity for cohort tests; one for unit tests |
 | `notes` | Restricted factual notes |

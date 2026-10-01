@@ -90,6 +90,10 @@ Create a production-shaped, accessible Next.js storefront shell and engineering 
 
 Persist the catalog, structured optical specifications, sellable SKUs, and transaction-safe aggregate/serialized inventory in Supabase Postgres.
 
+### Phase 2A boundary
+
+Phase 2A establishes Drizzle schema definitions, reproducible SQL migrations, the six core product/inventory/testing tables, database-enforced authority rules, deny-by-default RLS, a server-only connection boundary, and a typed public projection. It does not configure or deploy a Supabase project, seed inventory, connect storefront routes to PostgreSQL, or implement repositories and stock operations. Those remaining Phase 2 objectives are gated follow-on work.
+
 ### Scope
 
 - Configure isolated Supabase development/preview environments within the cost target.

@@ -30,6 +30,7 @@ yarn-error.log*
 
 # Environment files are local unless deliberately allowlisted later.
 .env*
+!.env.example
 
 # Vercel
 .vercel

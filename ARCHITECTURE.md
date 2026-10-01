@@ -293,7 +293,9 @@ flowchart LR
     S --> SMonitor[Supabase logs/metrics]
 ```
 
-Use separate development/preview and production configuration. Production secrets live in provider secret stores, not the repository. Database migrations, when permitted in later phases, are versioned and applied through a controlled workflow. Preview environments must not mutate production commerce data.
+Use separate development/preview and production configuration. Production secrets live in provider secret stores, not the repository. Drizzle defines the schema and generates version-controlled SQL migrations; reviewed migrations are applied through a controlled command using a separately configured migration connection. Schema push is not a production workflow. Preview environments must not mutate production commerce data.
+
+Phase 2A adds the server-only database adapter and schema but deliberately leaves storefront reads on development fixtures. The runtime connection uses a server-only pooled PostgreSQL URL. Migration execution uses a separate server-only direct/session URL so build and ordinary CI checks do not require database credentials.
 
 Tax calculation/collection, approved legal policies, shipping operations, backup/recovery expectations, and provider settings must be resolved before accepting production payments.
 

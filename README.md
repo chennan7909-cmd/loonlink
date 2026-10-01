@@ -1,6 +1,6 @@
 # LoonLink
 
-> **Status:** LoonLink is under development. Phase 1C provides a frontend-only storefront experience backed exclusively by synthetic public fixtures; no production service or persistent commerce data has been implemented.
+> **Status:** LoonLink is under development. Phase 2A establishes a PostgreSQL schema and migration foundation, while the storefront remains backed exclusively by synthetic public fixtures. No production database has been deployed or populated.
 
 LoonLink is a planned B2B optical transceiver commerce and compatibility platform, initially focused on the Canadian market. It is intended to help businesses discover, evaluate, and purchase tested pre-owned enterprise optical transceivers using structured technical specifications, transparent inventory condition, and evidence-backed compatibility information.
 
@@ -33,7 +33,7 @@ Compatibility information is decision support, not a guarantee. Wording and evid
 | Application | Next.js App Router, React, TypeScript |
 | Styling | Tailwind CSS and shadcn/ui; accessible, semantic UI primitives |
 | Hosting | Vercel; Pro is the early-production target |
-| Data | Supabase Postgres, initially Supabase Free where appropriate |
+| Data | Supabase Postgres with Drizzle ORM and version-controlled SQL migrations; initially Supabase Free where appropriate |
 | Authentication | Supabase Auth |
 | File storage | Supabase Storage for approved product/evidence assets if needed |
 | Payments | Stripe Checkout, created server-side; no card data stored by LoonLink |
@@ -64,7 +64,8 @@ The browser is untrusted. Pricing, discounts, authorization, inventory availabil
 - [PRD.md](./PRD.md) — product requirements and MVP boundary
 - [AGENTS.md](./AGENTS.md) — mandatory implementation rules
 - [ARCHITECTURE.md](./ARCHITECTURE.md) — system design and flows
-- [DATA_MODEL.md](./DATA_MODEL.md) — proposed domain model; no migrations yet
+- [DATA_MODEL.md](./DATA_MODEL.md) — domain model and Phase 2A persistence decisions
+- [DATABASE.md](./DATABASE.md) — local configuration and controlled migration workflow
 - [SECURITY.md](./SECURITY.md) — threat model and controls
 - [ROADMAP.md](./ROADMAP.md) — phased delivery plan
 
@@ -82,7 +83,7 @@ npm ci
 npm run dev
 ```
 
-Open `http://localhost:3000`. The non-indexed `/design-system` route is a development reference containing clearly labelled illustrative UI fixtures. Phase 1C does not require environment variables, so there is no `.env.example` file.
+Open `http://localhost:3000`. The non-indexed `/design-system` route is a development reference containing clearly labelled illustrative UI fixtures. The fixture-backed storefront does not require database credentials. Database commands use the server-only variables documented in `.env.example` and [DATABASE.md](./DATABASE.md).
 
 Phase 1C includes the storefront homepage, fixture product discovery, fixture product detail pages, and inactive compatibility and sourcing previews. These routes demonstrate the intended customer experience; they do not establish actual stock, price, testing, compatibility, availability, or an offer to sell.
 
@@ -103,6 +104,9 @@ The fixture module is the replacement seam for Phase 2 persistence. Public pages
 | `npm run test:e2e` | Run the Playwright Chromium smoke test |
 | `npm run build` | Create a production Next.js build |
 | `npm run start` | Serve an existing production build |
+| `npm run db:generate` | Generate a version-controlled migration from the Drizzle schema |
+| `npm run db:check` | Validate Drizzle migration history consistency |
+| `npm run db:migrate` | Apply committed migrations to the explicitly configured database |
 
 The local Playwright configuration uses an installed Google Chrome browser. Linux CI installs Playwright-managed Chromium before running the end-to-end test:
 
@@ -125,11 +129,13 @@ src/
     ui/                Reusable design-system primitives
   features/
     catalog/           Centralized allowlisted public fixtures and filtering
+  db/                  Drizzle schema, server-only connection, public projection, and invariants
   lib/                 Shared framework utilities
+drizzle/               Version-controlled PostgreSQL migrations and snapshots
 tests/
   e2e/                 Playwright smoke tests
 ```
 
 ## Current limitations
 
-There is no deployed product, purchasable inventory, configured payment flow, compatibility dataset, or supported-product commitment yet. Supabase, Stripe, authentication, catalog persistence, real inventory, cart, checkout, payments, RFQ submission, and administration are not configured in Phase 1C. Tax integration remains a future production requirement.
+There is no deployed product, purchasable inventory, configured payment flow, compatibility dataset, or supported-product commitment yet. Phase 2A does not connect the storefront to PostgreSQL, create real inventory, configure a Supabase project, or add Stripe, authentication, compatibility persistence, cart, checkout, orders, payments, RFQ submission, or administration. Tax integration remains a future production requirement.

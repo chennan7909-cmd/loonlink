@@ -202,6 +202,8 @@ For unauthenticated RFQs specifically:
 ## Secret management
 
 - Store secrets in local ignored environment files and Vercel/Supabase/Stripe secret stores as appropriate; never commit them.
+- Phase 2A uses `DATABASE_URL` for server-only runtime access and `DATABASE_MIGRATION_URL` for controlled migration execution. Neither name may use the `NEXT_PUBLIC_` prefix, and neither value is required by ordinary lint, typecheck, unit, browser, or build CI jobs.
+- `.env.example` contains variable names with empty values only. `.env.local` and all other populated environment files remain ignored.
 - Clearly separate development, preview, and production keys/projects. Preview deployments must not access production commerce data.
 - Expose only intentionally public configuration (for example a Supabase anonymous key protected by RLS); treat all other keys as server-only.
 - Validate required server environment variables at startup/build boundaries without printing their values.
