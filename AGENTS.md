@@ -81,6 +81,14 @@ Do not substitute core framework, database, authentication, payment, or hosting 
 - Keep documentation synchronized with architectural or domain decisions.
 - Prefer the simplest design that meets current requirements.
 
+## Customer-facing UI principles
+
+- Complexity belongs in the data model, not in the interface.
+- Use progressive disclosure in customer-facing views; default views show only the information required for the buyer's next decision.
+- Keep public product interfaces usable by both technical and non-specialist B2B buyers. Make essential identity and decision information clear before exposing complete engineering detail.
+- Never fabricate catalog breadth, inventory, adoption, customer proof, or other business proof to make the interface appear established.
+- Technical accuracy and evidence-aware status language take priority over marketing language.
+
 ## Forbidden shortcuts
 
 - No hard-coded or client-controlled prices, discounts, inventory, compatibility verdicts, permissions, or order/payment success.

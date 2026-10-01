@@ -1,6 +1,6 @@
 # LoonLink
 
-> **Status:** LoonLink is under development. Phase 1A establishes the application shell and engineering foundation; no storefront or production service has been implemented.
+> **Status:** LoonLink is under development. Phase 1B establishes the reusable design system and responsive application shell; no storefront or production service has been implemented.
 
 LoonLink is a planned B2B optical transceiver commerce and compatibility platform, initially focused on the Canadian market. It is intended to help businesses discover, evaluate, and purchase tested pre-owned enterprise optical transceivers using structured technical specifications, transparent inventory condition, and evidence-backed compatibility information.
 
@@ -82,7 +82,9 @@ npm ci
 npm run dev
 ```
 
-Open `http://localhost:3000`. Phase 1A does not require environment variables, so there is no `.env.example` file.
+Open `http://localhost:3000`. The non-indexed `/design-system` route is a development reference containing clearly labelled illustrative UI fixtures. Phase 1B does not require environment variables, so there is no `.env.example` file.
+
+The current homepage is temporary Phase 1B presentation scaffolding, not permanent brand or storefront copy. Phase 1C will replace its development badge, call to action, and planned-experience sections with the approved synthetic storefront presentation. That replacement does not authorize persistent catalog data or live commerce integrations.
 
 ## Quality commands
 
@@ -106,14 +108,14 @@ GitHub Actions runs linting, type checking, unit tests, the production build, an
 
 The production build uses Next.js's supported webpack fallback because the current macOS 13 ARM development host blocks an internal Turbopack CSS-worker port. Development still uses the default Turbopack server, and CI runs the same production build script documented above.
 
-## Phase 1A application structure
+## Phase 1 foundation structure
 
 ```text
 src/
   app/                 App Router entry points and global styles
   components/
-    layout/            Accessible application shell
-    ui/                Minimal shadcn/ui components
+    layout/            Accessible responsive application shell
+    ui/                Reusable design-system primitives
   lib/                 Shared framework utilities
 tests/
   e2e/                 Playwright smoke tests
@@ -121,4 +123,4 @@ tests/
 
 ## Current limitations
 
-There is no deployed product, purchasable inventory, configured payment flow, compatibility dataset, or supported-product commitment yet. Supabase, Stripe, authentication, catalog persistence, inventory, checkout, RFQs, and administration are not configured in Phase 1A. Tax integration remains a future production requirement.
+There is no deployed product, purchasable inventory, configured payment flow, compatibility dataset, or supported-product commitment yet. Supabase, Stripe, authentication, catalog persistence, inventory, checkout, RFQs, and administration are not configured in Phase 1B. Tax integration remains a future production requirement.

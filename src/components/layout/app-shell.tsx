@@ -11,7 +11,7 @@ export function AppShell({ children }: AppShellProps) {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <a
-        className="sr-only z-50 rounded-md bg-background px-4 py-2 text-sm font-medium shadow-lg focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+        className="sr-only z-50 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-lg focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:outline-none focus:ring-3 focus:ring-ring/40 focus:ring-offset-2"
         href="#main-content"
       >
         Skip to main content

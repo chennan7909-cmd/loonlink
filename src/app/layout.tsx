@@ -6,7 +6,10 @@ import { AppShell } from "@/components/layout/app-shell";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "LoonLink | Under development",
+  title: {
+    default: "LoonLink",
+    template: "%s | LoonLink",
+  },
   description: "Compatibility-first optical transceiver commerce.",
 };
 
