@@ -15,9 +15,9 @@ describe("AppShell", () => {
     expect(within(header).getByRole("link", { name: "LoonLink" })).toHaveAttribute("href", "/");
 
     const navigation = screen.getByRole("navigation", { name: "Primary" });
-    expect(within(navigation).getByRole("link", { name: "Products" })).toHaveAttribute("href", "/#products");
-    expect(within(navigation).getByRole("link", { name: "Compatibility" })).toHaveAttribute("href", "/#compatibility");
-    expect(within(navigation).getByRole("link", { name: "Request a Quote" })).toHaveAttribute("href", "/#request-quote");
+    expect(within(navigation).getByRole("link", { name: "Products" })).toHaveAttribute("href", "/products");
+    expect(within(navigation).getByRole("link", { name: "Compatibility" })).toHaveAttribute("href", "/compatibility");
+    expect(within(navigation).getByRole("link", { name: "Request a Quote" })).toHaveAttribute("href", "/request-quote");
     expect(within(navigation).getByRole("link", { name: "About" })).toHaveAttribute("href", "/#about");
 
     expect(screen.getByRole("main")).toHaveTextContent("Foundation test content");

@@ -4,7 +4,7 @@
 
 This document records the reusable visual and interaction decisions established in Phase 1B. It does not define live catalog content or authorize later storefront functionality. The `/design-system` route is a non-indexed development reference; all product, price, testing, and compatibility content there is explicitly illustrative.
 
-The Phase 1B homepage is temporary presentation scaffolding. Its phase label, development-oriented call to action, and planned-experience copy are not permanent brand language. Phase 1C will replace that placeholder with approved synthetic storefront content while retaining this visual system.
+Phase 1C replaces the earlier homepage scaffolding with approved synthetic storefront content while retaining this visual system. Fixture notices remain functional safeguards and are not permanent brand language.
 
 The design direction is **modern, low-density B2B network infrastructure commerce**: calm, precise, trustworthy, and technically competent. Complexity belongs in the data model, not the interface.
 
@@ -47,7 +47,7 @@ Tokens are defined in `src/app/globals.css` using OKLCH values and exposed to Ta
 ## Component contracts
 
 - `Button`: primary, secondary, outline, ghost, and link treatments with consistent focus and disabled states.
-- `Input` and `SearchInput`: labelled native controls with visible focus; search is a presentation primitive only in Phase 1B.
+- `Input` and `SearchInput`: labelled native controls with visible focus; Phase 1C search filters only the centralized development fixtures and does not imply a backend search service. On the curated product index, search remains primary while the two optional filters use native progressive disclosure.
 - `Badge`: compact categorical metadata. It must not replace explanatory status text.
 - `Card`: restrained surface with header/content/footer composition.
 - `Container` and `Section`: shared responsive page geometry.
@@ -67,7 +67,7 @@ This hierarchy is a component design target, not evidence that product pages or 
 
 ## Product photography readiness
 
-Future real product photography can become the primary visual focus without changing the system. Cards are composition-based and can place an approved media region before their text hierarchy; the neutral canvas, restrained borders, and low visual ornamentation are intended to defer to product imagery. Phase 1C may establish image aspect ratios, responsive loading, and empty-image behavior using synthetic assets, but it must not redesign the typography, spacing, colour, or information hierarchy to do so.
+Future real product photography can become the primary visual focus without changing the system. Cards are composition-based and place a restrained media placeholder before their text hierarchy; the neutral canvas, restrained borders, and low visual ornamentation are intended to defer to product imagery. Phase 1C establishes the placeholder aspect ratio and empty-image behavior without copying or fabricating product imagery. Responsive loading rules can be added when approved real assets exist.
 
 The text-only LoonLink wordmark and system font remain intentional. A logo, icon, decorative illustration, or web font is not required to support product imagery.
 

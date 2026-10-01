@@ -1,6 +1,6 @@
 # LoonLink
 
-> **Status:** LoonLink is under development. Phase 1B establishes the reusable design system and responsive application shell; no storefront or production service has been implemented.
+> **Status:** LoonLink is under development. Phase 1C provides a frontend-only storefront experience backed exclusively by synthetic public fixtures; no production service or persistent commerce data has been implemented.
 
 LoonLink is a planned B2B optical transceiver commerce and compatibility platform, initially focused on the Canadian market. It is intended to help businesses discover, evaluate, and purchase tested pre-owned enterprise optical transceivers using structured technical specifications, transparent inventory condition, and evidence-backed compatibility information.
 
@@ -82,9 +82,15 @@ npm ci
 npm run dev
 ```
 
-Open `http://localhost:3000`. The non-indexed `/design-system` route is a development reference containing clearly labelled illustrative UI fixtures. Phase 1B does not require environment variables, so there is no `.env.example` file.
+Open `http://localhost:3000`. The non-indexed `/design-system` route is a development reference containing clearly labelled illustrative UI fixtures. Phase 1C does not require environment variables, so there is no `.env.example` file.
 
-The current homepage is temporary Phase 1B presentation scaffolding, not permanent brand or storefront copy. Phase 1C will replace its development badge, call to action, and planned-experience sections with the approved synthetic storefront presentation. That replacement does not authorize persistent catalog data or live commerce integrations.
+Phase 1C includes the storefront homepage, fixture product discovery, fixture product detail pages, and inactive compatibility and sourcing previews. These routes demonstrate the intended customer experience; they do not establish actual stock, price, testing, compatibility, availability, or an offer to sell.
+
+### Fixture boundary
+
+Development catalog data is centralized in `src/features/catalog/public-fixtures.ts`. Its type is an explicit customer-safe projection containing only product identity, display condition/testing/pricing states, essential specifications, additional public fixture detail, and presentation notes. It deliberately contains no serial number, exact quantity, cost, supplier, customer, Stripe, private-note, tester-identity, or measured-value fields.
+
+The fixture module is the replacement seam for Phase 2 persistence. Public pages must continue to consume an allowlisted projection when database-backed catalog records arrive; swapping the data source must not broaden the exposed field set.
 
 ## Quality commands
 
@@ -114,8 +120,11 @@ The production build uses Next.js's supported webpack fallback because the curre
 src/
   app/                 App Router entry points and global styles
   components/
+    catalog/           Public fixture storefront presentation
     layout/            Accessible responsive application shell
     ui/                Reusable design-system primitives
+  features/
+    catalog/           Centralized allowlisted public fixtures and filtering
   lib/                 Shared framework utilities
 tests/
   e2e/                 Playwright smoke tests
@@ -123,4 +132,4 @@ tests/
 
 ## Current limitations
 
-There is no deployed product, purchasable inventory, configured payment flow, compatibility dataset, or supported-product commitment yet. Supabase, Stripe, authentication, catalog persistence, inventory, checkout, RFQs, and administration are not configured in Phase 1B. Tax integration remains a future production requirement.
+There is no deployed product, purchasable inventory, configured payment flow, compatibility dataset, or supported-product commitment yet. Supabase, Stripe, authentication, catalog persistence, real inventory, cart, checkout, payments, RFQ submission, and administration are not configured in Phase 1C. Tax integration remains a future production requirement.

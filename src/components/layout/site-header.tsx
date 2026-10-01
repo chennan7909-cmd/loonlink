@@ -29,7 +29,7 @@ export function SiteHeader() {
           <Link
             aria-label="Search"
             className={`${navigationLinkClassName} inline-flex size-9 items-center justify-center`}
-            href="/#discover"
+            href="/products"
           >
             <Search aria-hidden="true" className="size-4" />
           </Link>

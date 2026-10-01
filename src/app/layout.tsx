@@ -19,7 +19,7 @@ type RootLayoutProps = Readonly<{
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en-CA">
+    <html data-scroll-behavior="smooth" lang="en-CA">
       <body>
         <AppShell>{children}</AppShell>
       </body>

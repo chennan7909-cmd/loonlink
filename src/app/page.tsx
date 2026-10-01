@@ -1,34 +1,40 @@
-import { ArrowRight, Boxes, FileSearch, Network } from "lucide-react";
+import type { Metadata } from "next";
+
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { ProductCard } from "@/components/catalog/product-card";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
+import { SearchInput } from "@/components/ui/search-input";
 import { Section } from "@/components/ui/section";
+import {
+  fixtureCatalogNotice,
+  publicProductFixtures,
+} from "@/features/catalog/public-fixtures";
 import { cn } from "@/lib/utils";
 
-const focusAreas = [
+export const metadata: Metadata = {
+  title: "Optical transceiver storefront preview",
+  description:
+    "Explore LoonLink's fixture storefront for optical transceiver discovery, structured specifications, and evidence-aware compatibility information.",
+};
+
+const buyingPrinciples = [
   {
-    id: "products",
-    icon: Boxes,
-    title: "Curated product discovery",
+    title: "Condition made explicit",
     description:
-      "A focused catalog is planned around clear product identity, condition, and the specifications needed for a purchase decision.",
+      "Product offers are designed to state condition clearly instead of leaving buyers to infer it from a generic listing.",
   },
   {
-    id: "compatibility",
-    icon: Network,
-    title: "Evidence before conclusions",
+    title: "Specifications, structured",
     description:
-      "Future compatibility results will communicate their scope, evidence, and uncertainty instead of relying on specification matching alone.",
+      "Essential optical properties appear first, with complete engineering detail available progressively.",
   },
   {
-    id: "request-quote",
-    icon: FileSearch,
-    title: "A path for non-standard needs",
+    title: "Evidence-aware compatibility",
     description:
-      "A request-for-quote path is planned for volume, ambiguous, unavailable, or otherwise non-checkout requirements.",
+      "Future compatibility conclusions will show their scope and provenance; uncertain evidence will not be presented as verified.",
   },
 ] as const;
 
@@ -38,70 +44,123 @@ export default function Home() {
       <Section className="pb-12 sm:pb-16 lg:pb-20">
         <Container>
           <div className="max-w-4xl">
-            <Badge variant="info">Phase 1B placeholder</Badge>
-            <h1 className="mt-6 text-balance text-4xl font-semibold tracking-[-0.035em] sm:text-5xl lg:text-6xl lg:leading-[1.08]">
-              Optical transceiver decisions, made clearer.
-            </h1>
-            <p className="mt-6 max-w-2xl text-pretty text-lg leading-8 text-muted-foreground sm:text-xl">
-              LoonLink is building a compatibility-first commerce experience for B2B optical transceiver buyers, with an initial focus on Canada.
+            <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+              Optical transceiver commerce
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link className={cn(buttonVariants({ size: "lg" }), "group")} href="#discover">
-                Review the foundation
-                <ArrowRight aria-hidden="true" className="transition-transform group-hover:translate-x-0.5" />
-              </Link>
-              <Link className={buttonVariants({ size: "lg", variant: "outline" })} href="#about">
-                About LoonLink
-              </Link>
-            </div>
+            <h1 className="mt-6 text-balance text-5xl font-semibold tracking-[-0.04em] sm:text-6xl lg:text-7xl lg:leading-[1.02]">
+              The right optic.
+              <br />
+              Without the guesswork.
+            </h1>
+            <p className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-muted-foreground sm:text-xl">
+              Discover optical transceivers through clear technical specifications, transparent condition information, and compatibility evidence where it is available.
+            </p>
           </div>
         </Container>
       </Section>
 
-      <Section className="border-y border-border bg-surface" id="discover">
+      <Section className="border-y border-border bg-surface py-10 sm:py-14" aria-labelledby="search-title">
+        <Container>
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,0.65fr)_minmax(26rem,1.35fr)] lg:items-end lg:gap-16">
+            <div>
+              <h2 className="text-2xl font-semibold tracking-[-0.02em]" id="search-title">
+                Find a part
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                Search the development fixture catalog by part number, manufacturer, or model reference.
+              </p>
+            </div>
+            <form action="/products" className="flex flex-col gap-3 sm:flex-row" method="get">
+              <SearchInput
+                containerClassName="flex-1"
+                label="Search by part number or model"
+                name="q"
+                placeholder="Search by part number or model"
+              />
+              <Button className="sm:self-stretch" type="submit">
+                Search products
+              </Button>
+            </form>
+          </div>
+          <p className="mt-4 text-xs text-muted-foreground">
+            Fixture examples: Cisco GLC-SX-MM · Juniper 740-031981
+          </p>
+        </Container>
+      </Section>
+
+      <Section aria-labelledby="inventory-title" id="products">
+        <Container>
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <div className="max-w-2xl">
+              <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                Available inventory · fixture preview
+              </p>
+              <h2 className="mt-4 text-3xl font-semibold tracking-[-0.025em] sm:text-4xl" id="inventory-title">
+                A focused starting point.
+              </h2>
+              <p className="mt-4 text-base leading-7 text-muted-foreground">
+                A small catalog, presented with the information needed to compare products clearly.
+              </p>
+            </div>
+            <Link className={buttonVariants({ variant: "outline" })} href="/products">
+              View all fixture products
+            </Link>
+          </div>
+          <p className="mt-8 inline-flex rounded-md border border-border bg-muted/55 px-3 py-2 text-xs font-medium text-muted-foreground">
+            {fixtureCatalogNotice}. Availability, pricing, and testing are not connected.
+          </p>
+          <div className="mt-6 grid gap-6 lg:grid-cols-3">
+            {publicProductFixtures.map((product) => (
+              <ProductCard key={product.slug} product={product} />
+            ))}
+          </div>
+        </Container>
+      </Section>
+
+      <Section className="border-y border-border bg-surface" aria-labelledby="clarity-title" id="about">
         <Container>
           <div className="max-w-2xl">
             <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-              Planned experience
+              Buying clarity
             </p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-[-0.025em] sm:text-4xl">
-              Start with the next decision.
+            <h2 className="mt-4 text-3xl font-semibold tracking-[-0.025em] sm:text-4xl" id="clarity-title">
+              Information before assumptions.
             </h2>
-            <p className="mt-4 text-base leading-7 text-muted-foreground">
-              Product and compatibility detail will appear progressively, keeping the default view useful to both technical and non-specialist B2B buyers.
-            </p>
           </div>
-          <div className="mt-10 grid gap-5 lg:grid-cols-3">
-            {focusAreas.map((area) => {
-              const Icon = area.icon;
-              return (
-                <Card className="h-full" id={area.id} key={area.id}>
-                  <CardHeader>
-                    <Icon aria-hidden="true" className="size-5 text-primary" />
-                    <h3 className="mt-6 text-lg font-semibold tracking-tight">{area.title}</h3>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm leading-6 text-muted-foreground">{area.description}</p>
-                  </CardContent>
-                </Card>
-              );
-            })}
+          <div className="mt-10 grid gap-8 border-t border-border pt-8 md:grid-cols-3 md:gap-10">
+            {buyingPrinciples.map((principle) => (
+              <div key={principle.title}>
+                <h3 className="text-base font-semibold">{principle.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                  {principle.description}
+                </p>
+              </div>
+            ))}
           </div>
         </Container>
       </Section>
 
-      <Section id="about">
+      <Section aria-labelledby="sourcing-title">
         <Container>
-          <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-            <h2 className="text-3xl font-semibold tracking-[-0.025em]">Calm interface. Precise information.</h2>
-            <div className="space-y-4 text-base leading-7 text-muted-foreground">
-              <p>
-                LoonLink is intended to help businesses discover, assess, and eventually purchase optical transceivers through structured specifications and evidence-backed compatibility information.
-              </p>
-              <p>
-                The project does not yet offer live inventory, compatibility results, quote submission, or purchasing. Those capabilities belong to later phases and will only present claims supported by actual records.
+          <div className="rounded-lg border border-border bg-primary px-6 py-10 text-primary-foreground sm:px-10 sm:py-12 lg:flex lg:items-center lg:justify-between lg:gap-12">
+            <div className="max-w-2xl">
+              <h2 className="text-3xl font-semibold tracking-[-0.025em]" id="sourcing-title">
+                Can&apos;t find your part?
+              </h2>
+              <p className="mt-4 text-base leading-7 text-primary-foreground/80">
+                Tell us the part number and quantity you&apos;re looking for. The sourcing request workflow is preview-only in this phase.
               </p>
             </div>
+            <Link
+              className={cn(
+                buttonVariants({ size: "lg", variant: "outline" }),
+                "mt-7 border-primary-foreground/25 bg-primary-foreground text-primary hover:bg-primary-foreground/90 lg:mt-0",
+              )}
+              href="/request-quote"
+            >
+              Preview request sourcing
+              <ArrowRight aria-hidden="true" />
+            </Link>
           </div>
         </Container>
       </Section>
