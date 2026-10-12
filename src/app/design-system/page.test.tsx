@@ -1,9 +1,16 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
+import { isDesignSystemAvailable } from "@/app/design-system/availability";
 import DesignSystemPage from "@/app/design-system/page";
 
 describe("DesignSystemPage", () => {
+  it("is unavailable in production and available for local development", () => {
+    expect(isDesignSystemAvailable("production")).toBe(false);
+    expect(isDesignSystemAvailable("development")).toBe(true);
+    expect(isDesignSystemAvailable("test")).toBe(true);
+  });
+
   it("renders the component reference with fixture and status safeguards", () => {
     render(<DesignSystemPage />);
 

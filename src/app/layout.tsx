@@ -6,11 +6,28 @@ import { AppShell } from "@/components/layout/app-shell";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  applicationName: "LoonLink",
   title: {
-    default: "LoonLink",
+    default: "LoonLink | Optical transceiver sourcing preview",
     template: "%s | LoonLink",
   },
-  description: "Compatibility-first optical transceiver commerce.",
+  description:
+    "A public preview of LoonLink, a compatibility-first optical transceiver platform under development for Canadian business buyers.",
+  robots: { index: true, follow: true },
+  openGraph: {
+    locale: "en_CA",
+    siteName: "LoonLink",
+    title: "LoonLink optical transceiver sourcing preview",
+    description:
+      "LoonLink is preparing a compatibility-first optical transceiver catalog for Canadian business buyers.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "LoonLink optical transceiver sourcing preview",
+    description:
+      "LoonLink is preparing a compatibility-first optical transceiver catalog for Canadian business buyers.",
+  },
 };
 
 type RootLayoutProps = Readonly<{

@@ -13,6 +13,12 @@ export const metadata: Metadata = {
   title: "Compatibility preview",
   description:
     "Preview LoonLink's planned evidence-backed optical transceiver compatibility workflow.",
+  openGraph: {
+    title: "LoonLink compatibility workflow preview",
+    description:
+      "A nonfunctional preview of LoonLink's planned evidence-backed compatibility approach.",
+    type: "website",
+  },
 };
 
 const workflowSteps = [
@@ -51,7 +57,7 @@ export default function CompatibilityPage() {
               placeholder="Search part number or device model"
             />
             <p className="mt-3 text-xs leading-5 text-muted-foreground">
-              This control is intentionally inactive. Phase 1C does not contain a compatibility engine or compatibility records.
+              This control is intentionally inactive. The public preview contains no compatibility engine, records, or results.
             </p>
           </div>
         </Container>
@@ -82,7 +88,7 @@ export default function CompatibilityPage() {
               Similar speed, reach, wavelength, connector, or fiber type can help narrow a search, but those attributes alone do not establish compatibility. Unknown, incomplete, conflicting, or obsolete evidence will never be presented as verified.
             </p>
             <Link className={`${buttonVariants({ variant: "outline" })} mt-7`} href="/products">
-              Browse fixture products
+              View catalog status
               <ArrowRight aria-hidden="true" />
             </Link>
           </div>

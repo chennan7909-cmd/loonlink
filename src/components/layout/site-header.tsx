@@ -1,4 +1,3 @@
-import { Search } from "lucide-react";
 import Link from "next/link";
 
 import { MobileNavigation } from "@/components/layout/mobile-navigation";
@@ -18,7 +17,7 @@ export function SiteHeader() {
         >
           LoonLink
         </Link>
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden items-center md:flex">
           <nav aria-label="Primary" className="flex items-center gap-6">
             {primaryNavigation.map((item) => (
               <Link className={navigationLinkClassName} href={item.href} key={item.href}>
@@ -26,13 +25,6 @@ export function SiteHeader() {
               </Link>
             ))}
           </nav>
-          <Link
-            aria-label="Search"
-            className={`${navigationLinkClassName} inline-flex size-9 items-center justify-center`}
-            href="/products"
-          >
-            <Search aria-hidden="true" className="size-4" />
-          </Link>
         </div>
         <MobileNavigation />
       </Container>

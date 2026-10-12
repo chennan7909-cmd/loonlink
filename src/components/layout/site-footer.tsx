@@ -11,12 +11,12 @@ export function SiteFooter() {
             LoonLink
           </Link>
           <p className="mt-2 max-w-md text-sm leading-6 text-muted-foreground">
-            Compatibility-first optical transceiver commerce. Storefront preview only.
+            Compatibility-first optical transceiver commerce. Public preview only.
           </p>
         </div>
         <div className="text-sm text-muted-foreground sm:text-right">
           <p>Initial focus: Canadian B2B buyers</p>
-          <p className="mt-1">No purchasing services are available yet.</p>
+          <p className="mt-1">Catalog and purchasing services are not available yet.</p>
         </div>
       </Container>
     </footer>

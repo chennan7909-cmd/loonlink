@@ -6,6 +6,8 @@ This document records the reusable visual and interaction decisions established 
 
 Phase 1C replaces the earlier homepage scaffolding with approved synthetic storefront content while retaining this visual system. Fixture notices remain functional safeguards and are not permanent brand language.
 
+For the Phase 2P public preview, fixture components remain development assets but do not render on public catalog routes. `/design-system` retains `noindex, nofollow` metadata in development and resolves as unavailable in production.
+
 The design direction is **modern, low-density B2B network infrastructure commerce**: calm, precise, trustworthy, and technically competent. Complexity belongs in the data model, not the interface.
 
 ## Interface principles

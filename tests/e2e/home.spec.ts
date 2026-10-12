@@ -1,61 +1,42 @@
 import { expect, test } from "@playwright/test";
 
-test("homepage presents the storefront hierarchy and fixture boundary", async ({ page }) => {
+test("homepage presents the public preview without fixture products", async ({ page }) => {
   await page.goto("/");
 
-  await expect(page).toHaveTitle(/Optical transceiver storefront preview/);
+  await expect(page).toHaveTitle(/Optical transceiver sourcing preview/);
   await expect(
     page.getByRole("heading", { level: 1, name: /The right optic.*Without the guesswork/ }),
   ).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Find a part" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "A focused starting point." })).toBeVisible();
-  await expect(page.getByText("Development fixture", { exact: true })).toHaveCount(3);
+  await expect(page.getByRole("heading", { name: "Catalog coming soon." })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Information before assumptions." })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Can't find your part?" })).toBeVisible();
-  await expect(page.getByText(/Development fixtures · not live inventory/)).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Sourcing workflow preview" })).toBeVisible();
+  await expect(page.locator("body")).not.toContainText(/GLC-SX-MM|740-031981|development fixture/i);
   await expect(page.locator('a[href="/design-system"]')).toHaveCount(0);
 });
 
-test("homepage search leads to filtered fixture discovery", async ({ page }) => {
+test("catalog page shows a mobile-ready coming-soon state", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/", { waitUntil: "networkidle" });
+  await page.goto("/products", { waitUntil: "networkidle" });
 
-  await page.getByLabel("Search by part number or model").fill("740-031981");
-  await page.getByRole("button", { name: "Search products" }).click();
-
-  await expect(page).toHaveURL(/\/products\?q=740-031981/);
-  await page.waitForLoadState("networkidle");
-  await expect(page.getByText("Showing 1 of 3 development fixtures")).toBeVisible();
-  await expect(page.getByRole("heading", { name: "740-031981" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "GLC-SX-MM" })).toBeHidden();
-
-  const filters = page.locator("summary").filter({ hasText: /^Filters/ });
-  await filters.focus();
-  await filters.press("Enter");
-  await expect(page.getByLabel("Manufacturer")).toBeVisible();
-  await page.getByLabel("Manufacturer").selectOption("Cisco");
-  await expect(page.getByText("1 active")).toBeVisible();
-  await expect(page.getByRole("heading", { name: "No fixture products match" })).toBeVisible();
-  await page.getByRole("button", { name: "Reset catalog filters" }).click();
-  await expect(page.getByText("Showing 3 of 3 development fixtures")).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "Catalog coming soon." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Nothing is offered for sale yet" })).toBeVisible();
+  await expect(page.getByRole("searchbox")).toHaveCount(0);
+  await expect(page.locator("form")).toHaveCount(0);
+  await expect(page.locator("body")).not.toContainText(/GLC-SX-MM|740-031981|in stock/i);
 });
 
-test("product detail preserves hierarchy and progressive disclosure", async ({ page }) => {
-  await page.goto("/products/cisco-glc-sx-mm");
+test("fixture product URLs are unavailable and non-indexed", async ({ page }) => {
+  const response = await page.goto("/products/cisco-glc-sx-mm");
 
-  await expect(page.getByRole("heading", { level: 1, name: "GLC-SX-MM" })).toBeVisible();
-  await expect(page.getByText("Pricing available later")).toBeVisible();
-  await expect(page.getByRole("heading", { name: "The decision-level details." })).toBeVisible();
-  await expect(page.getByText("Testing information")).toBeVisible();
-
-  await page.getByText("Compatibility evidence").click();
-  await expect(page.getByText(/No compatibility conclusion or evidence record is connected/)).toBeVisible();
-  await expect(page.locator("body")).not.toContainText(/serial number|cost price|supplier information|private notes/i);
+  expect(response?.status()).toBe(404);
+  await expect(page.getByRole("heading", { level: 1, name: "Catalog item unavailable." })).toBeVisible();
+  await expect(page.locator('meta[name="robots"][content*="noindex"]')).not.toHaveCount(0);
+  await expect(page.locator("body")).not.toContainText(/GLC-SX-MM|Pricing available later/i);
 });
 
 test("sourcing path remains a non-submitting preview", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("link", { name: "Preview request sourcing" }).click();
+  await page.getByRole("link", { name: "View sourcing preview" }).click();
 
   await expect(page).toHaveURL(/\/request-quote$/);
   await expect(page.getByText("Preview only · submissions are not enabled")).toBeVisible();

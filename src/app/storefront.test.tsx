@@ -3,36 +3,30 @@ import { describe, expect, it } from "vitest";
 
 import CompatibilityPage from "@/app/compatibility/page";
 import Home from "@/app/page";
-import ProductDetailPage from "@/app/products/[slug]/page";
+import ProductsPage from "@/app/products/page";
 import RequestQuotePage from "@/app/request-quote/page";
 
-describe("Phase 1C storefront", () => {
-  it("renders the homepage storefront hierarchy and curated fixtures", () => {
+describe("public preview storefront", () => {
+  it("preserves the approved homepage direction without publishing fixtures", () => {
     render(<Home />);
 
     expect(
       screen.getByRole("heading", { level: 1, name: /The right optic.*Without the guesswork/ }),
     ).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Find a part" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "A focused starting point." })).toBeInTheDocument();
-    expect(screen.getAllByText("Development fixture")).toHaveLength(3);
+    expect(screen.getByRole("heading", { name: "Catalog coming soon." })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Information before assumptions." })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Can't find your part?" })).toBeInTheDocument();
-    expect(screen.queryByText(/live availability/i)).not.toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Sourcing workflow preview" })).toBeInTheDocument();
+    expect(document.body).not.toHaveTextContent(/GLC-SX-MM|740-031981|development fixture/i);
   });
 
-  it("renders the three-level product detail without restricted operational fields", async () => {
-    render(
-      await ProductDetailPage({
-        params: Promise.resolve({ slug: "cisco-glc-sx-mm" }),
-      }),
-    );
+  it("renders a clear catalog-coming-soon state without discovery or commerce controls", () => {
+    render(<ProductsPage />);
 
-    expect(screen.getByRole("heading", { level: 1, name: "GLC-SX-MM" })).toBeInTheDocument();
-    expect(screen.getByText("Pricing available later")).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "The decision-level details." })).toBeInTheDocument();
-    expect(screen.getByText("Compatibility evidence")).toBeInTheDocument();
-    expect(document.body).not.toHaveTextContent(/serial number|supplier|cost price|private note/i);
+    expect(screen.getByRole("heading", { level: 1, name: "Catalog coming soon." })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Nothing is offered for sale yet" })).toBeInTheDocument();
+    expect(screen.queryByRole("searchbox")).not.toBeInTheDocument();
+    expect(screen.queryByRole("form")).not.toBeInTheDocument();
+    expect(document.body).not.toHaveTextContent(/GLC-SX-MM|740-031981|in stock/i);
   });
 
   it("keeps compatibility and sourcing as explicit inactive previews", () => {

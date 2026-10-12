@@ -1,6 +1,6 @@
 # LoonLink
 
-> **Status:** LoonLink is under development. Phase 2A establishes a PostgreSQL schema and migration foundation, while the storefront remains backed exclusively by synthetic public fixtures. No production database has been deployed or populated.
+> **Status:** LoonLink is under development. The public Vercel preview presents the approved product direction and a “Catalog coming soon” state. It is not a commercial launch, contains no published inventory, and does not connect to a production database.
 
 LoonLink is a planned B2B optical transceiver commerce and compatibility platform, initially focused on the Canadian market. It is intended to help businesses discover, evaluate, and purchase tested pre-owned enterprise optical transceivers using structured technical specifications, transparent inventory condition, and evidence-backed compatibility information.
 
@@ -83,9 +83,15 @@ npm ci
 npm run dev
 ```
 
-Open `http://localhost:3000`. The non-indexed `/design-system` route is a development reference containing clearly labelled illustrative UI fixtures. The fixture-backed storefront does not require database credentials. Database commands use the server-only variables documented in `.env.example` and [DATABASE.md](./DATABASE.md).
+Open `http://localhost:3000`. Outside production, the non-indexed `/design-system` route is a development reference containing clearly labelled illustrative UI fixtures. Database commands use the server-only variables documented in `.env.example` and [DATABASE.md](./DATABASE.md).
 
-Phase 1C includes the storefront homepage, fixture product discovery, fixture product detail pages, and inactive compatibility and sourcing previews. These routes demonstrate the intended customer experience; they do not establish actual stock, price, testing, compatibility, availability, or an offer to sell.
+Phase 1C established fixture-backed product discovery and detail components for local development. Phase 2P keeps those implementation seams in source but removes their data from public routes: the homepage and product index now show a catalog-coming-soon state, while compatibility and sourcing remain nonfunctional previews.
+
+### Public preview deployment
+
+The Vercel preview intentionally publishes only the homepage direction, catalog-coming-soon state, and inactive compatibility/RFQ explanations. Synthetic catalog fixtures remain in source for development and tests but are not rendered on public product pages. Individual product URLs return a non-indexed not-found response, and `/design-system` is unavailable when `NODE_ENV=production` in addition to carrying `noindex, nofollow` metadata in development.
+
+The preview requires no environment variables. Do not configure `DATABASE_URL`, `DATABASE_MIGRATION_URL`, Supabase credentials, Stripe credentials, or other commerce secrets in Vercel for this phase. No database reads or writes, form submissions, customer accounts, checkout, or RFQ intake are enabled.
 
 ### Fixture boundary
 
@@ -138,4 +144,4 @@ tests/
 
 ## Current limitations
 
-There is no deployed product, purchasable inventory, configured payment flow, compatibility dataset, or supported-product commitment yet. Phase 2A does not connect the storefront to PostgreSQL, create real inventory, configure a Supabase project, or add Stripe, authentication, compatibility persistence, cart, checkout, orders, payments, RFQ submission, or administration. Tax integration remains a future production requirement.
+There is no commercial launch, purchasable inventory, configured payment flow, compatibility dataset, or supported-product commitment yet. The public preview does not connect the storefront to PostgreSQL, expose synthetic fixtures, create real inventory, configure Supabase, or add Stripe, authentication, cart, checkout, orders, payments, RFQ submission, or administration. Tax integration remains a future production requirement.

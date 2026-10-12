@@ -21,7 +21,7 @@ describe("AppShell", () => {
     expect(within(navigation).getByRole("link", { name: "About" })).toHaveAttribute("href", "/#about");
 
     expect(screen.getByRole("main")).toHaveTextContent("Foundation test content");
-    expect(screen.getByRole("contentinfo")).toHaveTextContent("Storefront preview only.");
+    expect(screen.getByRole("contentinfo")).toHaveTextContent("Public preview only.");
     expect(screen.queryByRole("link", { name: /design system/i })).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Skip to main content" })).toHaveAttribute("href", "#main-content");
   });

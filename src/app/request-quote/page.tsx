@@ -11,7 +11,13 @@ import { Section } from "@/components/ui/section";
 export const metadata: Metadata = {
   title: "Request sourcing preview",
   description:
-    "Preview LoonLink's planned sourcing path for optical transceiver parts that are not shown in the storefront.",
+    "Preview LoonLink's planned, currently inactive request-for-quote workflow.",
+  openGraph: {
+    title: "LoonLink request-for-quote workflow preview",
+    description:
+      "A nonfunctional preview of LoonLink's planned optical transceiver sourcing workflow.",
+    type: "website",
+  },
 };
 
 export default function RequestQuotePage() {
@@ -36,10 +42,10 @@ export default function RequestQuotePage() {
             </ul>
           </div>
           <p className="mt-8 leading-7 text-muted-foreground">
-            RFQ submission, validation, abuse protection, private data handling, and operator review belong to Phase 5.
+            RFQ submission, validation, abuse protection, private data handling, and operator review are not enabled in this public preview.
           </p>
           <Link className={`${buttonVariants({ variant: "outline" })} mt-7`} href="/products">
-            Return to fixture products
+            View catalog status
             <ArrowRight aria-hidden="true" />
           </Link>
         </div>

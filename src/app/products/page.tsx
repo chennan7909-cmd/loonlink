@@ -1,43 +1,46 @@
 import type { Metadata } from "next";
 
-import { CatalogExplorer } from "@/components/catalog/catalog-explorer";
+import Link from "next/link";
+
+import { buttonVariants } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
-import { fixtureCatalogNotice } from "@/features/catalog/public-fixtures";
 
 export const metadata: Metadata = {
-  title: "Products",
+  title: "Catalog coming soon",
   description:
-    "Browse LoonLink's development fixture catalog by part number and essential optical specifications.",
+    "LoonLink's reviewed optical transceiver catalog is being prepared and is not yet published.",
+  openGraph: {
+    title: "LoonLink catalog coming soon",
+    description:
+      "The LoonLink optical transceiver catalog is being prepared for a future release.",
+    type: "website",
+  },
 };
 
-type ProductsPageProps = Readonly<{
-  searchParams: Promise<{ q?: string | string[] }>;
-}>;
-
-export default async function ProductsPage({ searchParams }: ProductsPageProps) {
-  const query = (await searchParams).q;
-  const initialQuery = Array.isArray(query) ? (query[0] ?? "") : (query ?? "");
-
+export default function ProductsPage() {
   return (
     <Section>
       <Container>
         <div className="max-w-3xl">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-            Curated catalog preview
+            Catalog status
           </p>
-          <h1 className="mt-4 text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">
-            Products
+          <h1 className="mt-4 text-balance text-4xl font-semibold tracking-[-0.035em] sm:text-5xl">
+            Catalog coming soon.
           </h1>
           <p className="mt-5 text-lg leading-8 text-muted-foreground">
-            Find a fixture product by part number, manufacturer, or a small set of useful technical attributes.
+            LoonLink is preparing its initial optical transceiver catalog. Product identity, condition, technical specifications, testing records, and compatibility evidence must be reviewed before anything is published here.
           </p>
-          <p className="mt-5 inline-flex rounded-md border border-border bg-muted/55 px-3 py-2 text-xs font-medium text-muted-foreground">
-            {fixtureCatalogNotice}. Results do not represent current stock.
-          </p>
-        </div>
-        <div className="mt-10">
-          <CatalogExplorer initialQuery={initialQuery} />
+          <div className="mt-10 rounded-lg border border-border bg-surface p-6 sm:p-8">
+            <h2 className="text-xl font-semibold tracking-tight">Nothing is offered for sale yet</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
+              This public preview contains no live inventory, prices, stock quantities, test results, compatibility conclusions, checkout, or purchasing services.
+            </p>
+          </div>
+          <Link className={`${buttonVariants({ variant: "outline" })} mt-8`} href="/compatibility">
+            Preview compatibility approach
+          </Link>
         </div>
       </Container>
     </Section>

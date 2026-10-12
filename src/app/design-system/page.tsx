@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 import { ArrowRight } from "lucide-react";
 
+import { isDesignSystemAvailable } from "@/app/design-system/availability";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
@@ -31,6 +33,8 @@ function ShowcaseHeading({ eyebrow, title }: { eyebrow: string; title: string })
 }
 
 export default function DesignSystemPage() {
+  if (!isDesignSystemAvailable()) notFound();
+
   return (
     <>
       <Section className="border-b border-border bg-surface">
